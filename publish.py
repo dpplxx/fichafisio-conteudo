@@ -1,13 +1,17 @@
 """Publica o proximo item pendente da fila no Instagram (@fichafisio).
 
+Usa a API do Instagram com Login do Instagram (graph.instagram.com) —
+o caminho certo quando a conta NAO esta vinculada a uma Pagina do
+Facebook. Token de usuario do Instagram, gerado direto na conta.
+
 Le schedule.json direto do GitHub (sempre a versao mais recente),
 publica o primeiro item com posted=false via API oficial da Meta,
 e grava o resultado de volta no repo via GitHub Contents API
 (nao depende de credenciais git — so precisa de um token).
 
 Variaveis de ambiente esperadas:
-  IG_ACCESS_TOKEN   token de longa duracao da Meta (Instagram Graph API)
-  IG_USER_ID        ID da conta comercial do Instagram
+  IG_ACCESS_TOKEN   token de acesso do usuario do Instagram (longa duracao)
+  IG_USER_ID        ID da conta profissional do Instagram (@fichafisio)
   GITHUB_TOKEN      personal access token com escopo de conteudo no repo
   GITHUB_REPO       "dpplxx/fichafisio-conteudo" (default)
 """
@@ -19,7 +23,7 @@ import time
 import urllib.request
 import urllib.parse
 
-GRAPH = "https://graph.facebook.com/v20.0"
+GRAPH = "https://graph.instagram.com/v21.0"
 GITHUB_REPO = os.environ.get("GITHUB_REPO", "dpplxx/fichafisio-conteudo")
 SCHEDULE_PATH = "schedule.json"
 
@@ -56,7 +60,7 @@ def graph_get(path, params):
 
 
 def fetch_schedule():
-    token = os.environ["GITHUB_TOKEN"]
+    token = os.environ["GITHUB_TOKEN"].strip()
     url = f"https://api.github.com/repos/{GITHUB_REPO}/contents/{SCHEDULE_PATH}"
     code, resp = http("GET", url, headers={
         "Authorization": f"Bearer {token}",
@@ -69,7 +73,7 @@ def fetch_schedule():
 
 
 def push_schedule(items, sha, message):
-    token = os.environ["GITHUB_TOKEN"]
+    token = os.environ["GITHUB_TOKEN"].strip()
     url = f"https://api.github.com/repos/{GITHUB_REPO}/contents/{SCHEDULE_PATH}"
     encoded = base64.b64encode(json.dumps(items, ensure_ascii=False, indent=2).encode("utf-8")).decode("ascii")
     code, resp = http("PUT", url, data={
@@ -128,8 +132,8 @@ def publish_reels(ig_user_id, access_token, item):
 
 
 def main():
-    ig_user_id = os.environ["IG_USER_ID"]
-    access_token = os.environ["IG_ACCESS_TOKEN"]
+    ig_user_id = os.environ["IG_USER_ID"].strip()
+    access_token = os.environ["IG_ACCESS_TOKEN"].strip()
 
     items, sha = fetch_schedule()
     pending = next((it for it in items if not it["posted"]), None)
