@@ -8,17 +8,18 @@ Repositório de conteúdo e automação de publicação do Instagram [@fichafisi
 - `assets/reels/` — vídeos verticais pro Reels
 - `schedule.json` — fila de publicação (cada item tem `posted: false/true`)
 - `build_schedule.py` — gera/atualiza `schedule.json` a partir de novos posts adicionados em `assets/`
-- `publish.py` — publica o próximo item pendente da fila via API oficial da Meta (Instagram Graph API). É o que a rotina automática roda.
+- `publish.py` — publica o próximo item pendente da fila via API oficial da Meta (Instagram Graph API). Roda 3x/semana via GitHub Actions.
+- `analyze.py` — coleta curtidas/comentários dos posts já publicados e gera `analytics/report.md`. Roda 1x/semana via GitHub Actions.
+- `analytics/report.md` — relatório de desempenho sempre atualizado (curtidas/comentários por post, média por formato, recomendação de qual formato priorizar).
+- `analytics/history.json` — histórico bruto de todas as coletas (uma entrada por execução).
 
 ## Como a automação funciona
 
-Uma rotina agendada (Claude Code) roda `publish.py` 3x por semana. O script:
-1. Busca `schedule.json` direto do GitHub (sempre a versão mais recente)
-2. Pega o primeiro item com `posted: false`
-3. Publica no Instagram via Graph API (imagem ou Reels)
-4. Marca o item como publicado e salva de volta no repositório
+**Publicação** (`.github/workflows/publish.yml`, seg/qua/sex 19h Brasília): busca `schedule.json` do GitHub, pega o primeiro item com `posted: false`, publica no Instagram via Graph API (imagem ou Reels), marca como publicado e salva de volta no repositório.
 
-Nunca publica duas vezes o mesmo item, e nunca precisa de senha do Instagram — só um token de acesso oficial da Meta, gerado uma vez em developers.facebook.com.
+**Análise** (`.github/workflows/analyze.yml`, domingo à noite): busca os posts já publicados, consulta curtidas/comentários de cada um via Graph API, e regrava `analytics/report.md` comparando o desempenho de imagem vs. Reels — sem precisar ninguém pedir.
+
+Nenhum dos dois precisa de senha do Instagram — só o token de acesso oficial da Meta, gerado uma vez em developers.facebook.com.
 
 ## Adicionar uma nova leva de conteúdo
 
