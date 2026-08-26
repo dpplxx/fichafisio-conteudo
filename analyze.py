@@ -105,8 +105,19 @@ def build_report(media_list, pendentes):
         return "\n".join(lines)
 
     ordenado = sorted(media_list, key=lambda m: m.get("timestamp", ""))
+    agora = time.time()
+    MATURACAO_DIAS = 3
+
+    def idade_dias(m):
+        ts = m.get("timestamp", "")
+        try:
+            t = time.mktime(time.strptime(ts[:19], "%Y-%m-%dT%H:%M:%S"))
+            return (agora - t) / 86400
+        except ValueError:
+            return 999
 
     by_format = {}
+    by_format_maduro = {}
     lines.append("## Por post\n")
     lines.append("| Data | Formato | Curtidas | Comentarios | Link |")
     lines.append("|---|---|---|---|---|")
@@ -118,14 +129,26 @@ def build_report(media_list, pendentes):
         link = m.get("permalink", "")
         lines.append(f"| {data} | {formato} | {likes} | {comments} | {link} |")
         by_format.setdefault(formato, []).append(likes + comments)
+        if idade_dias(m) >= MATURACAO_DIAS:
+            by_format_maduro.setdefault(formato, []).append(likes + comments)
 
     lines.append("\n## Media de engajamento por formato\n")
-    for formato, valores in by_format.items():
-        media = sum(valores) / len(valores)
-        lines.append(f"- **{formato}**: media de {media:.1f} (curtidas + comentarios) em {len(valores)} post(s)")
-    if len(by_format) > 1:
-        melhor = max(by_format.items(), key=lambda kv: sum(kv[1]) / len(kv[1]))
-        lines.append(f"\n**Recomendacao:** formato **{melhor[0]}** esta performando melhor ate agora — priorizar nas proximas levas de conteudo.")
+    lines.append(f"_Considera so posts com {MATURACAO_DIAS}+ dias no ar, pra nao comparar um post recem-publicado (que ainda esta ganhando alcance) com um que ja maturou._\n")
+    if by_format_maduro:
+        for formato, valores in by_format_maduro.items():
+            media = sum(valores) / len(valores)
+            lines.append(f"- **{formato}**: media de {media:.1f} (curtidas + comentarios) em {len(valores)} post(s)")
+        if len(by_format_maduro) > 1:
+            melhor = max(by_format_maduro.items(), key=lambda kv: sum(kv[1]) / len(kv[1]))
+            lines.append(f"\n**Recomendacao:** formato **{melhor[0]}** esta performando melhor ate agora — priorizar nas proximas levas de conteudo.")
+        else:
+            lines.append("\nAinda so ha um formato maduro o suficiente pra avaliar — falta comparacao.")
+    else:
+        lines.append("Nenhum post maduro (3+ dias) ainda pra comparar com confianca.")
+
+    recentes = [m for m in ordenado if idade_dias(m) < MATURACAO_DIAS]
+    if recentes:
+        lines.append(f"\n_Fora da comparacao acima (ainda ganhando alcance, <{MATURACAO_DIAS} dias): {', '.join(classify_format(m) + ' de ' + m.get('timestamp', '')[:10] for m in recentes)}._")
 
     lines.append("\n## Fila de publicacao automatica\n")
     lines.append(f"- Total de posts no perfil: {len(media_list)}")
