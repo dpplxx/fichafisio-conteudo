@@ -1,5 +1,6 @@
-"""Coleta metricas (curtidas/comentarios) dos posts ja publicados e gera um
-relatorio comparando desempenho por formato (imagem vs reels).
+"""Coleta metricas (curtidas/comentarios) de TODOS os posts do perfil
+@fichafisio (inclusive os publicados manualmente antes da automacao existir,
+como os posts 01-09) e gera um relatorio comparando desempenho por formato.
 
 Roda automaticamente 1x por semana via GitHub Actions (analyze.yml).
 Nao publica nada, so le o Instagram e escreve o resultado no repositorio:
@@ -23,6 +24,8 @@ GITHUB_REPO = os.environ.get("GITHUB_REPO", "dpplxx/fichafisio-conteudo")
 SCHEDULE_PATH = "schedule.json"
 HISTORY_PATH = "analytics/history.json"
 REPORT_PATH = "analytics/report.md"
+
+MEDIA_FIELDS = "id,caption,media_type,media_product_type,timestamp,permalink,like_count,comments_count"
 
 
 def http(method, url, data=None, headers=None):
@@ -54,6 +57,12 @@ def fetch_json_from_repo(path, token):
     return json.loads(content), resp["sha"]
 
 
+def fetch_sha(path, token):
+    url = f"https://api.github.com/repos/{GITHUB_REPO}/contents/{path}"
+    code, resp = http("GET", url, headers=gh_headers(token))
+    return resp["sha"] if code < 300 else None
+
+
 def push_to_repo(path, text, sha, message, token):
     url = f"https://api.github.com/repos/{GITHUB_REPO}/contents/{path}"
     encoded = base64.b64encode(text.encode("utf-8")).decode("ascii")
@@ -65,54 +74,62 @@ def push_to_repo(path, text, sha, message, token):
         raise RuntimeError(f"Falha ao atualizar {path}: {resp}")
 
 
-def fetch_media_stats(media_id, access_token):
-    url = f"{GRAPH}/{media_id}?fields=like_count,comments_count,media_type,timestamp,permalink&access_token={access_token}"
-    code, resp = http("GET", url)
-    if code >= 300:
-        return {"error": resp}
-    return resp
+def fetch_all_media(ig_user_id, access_token):
+    media = []
+    url = f"{GRAPH}/{ig_user_id}/media?fields={MEDIA_FIELDS}&limit=50&access_token={access_token}"
+    while url:
+        code, resp = http("GET", url)
+        if code >= 300:
+            raise RuntimeError(f"Falha ao listar posts do Instagram: {resp}")
+        media.extend(resp.get("data", []))
+        url = resp.get("paging", {}).get("next")
+    return media
 
 
-def build_report(items, history):
+def classify_format(item):
+    if item.get("media_product_type") == "REELS":
+        return "Reels"
+    if item.get("media_type") == "CAROUSEL_ALBUM":
+        return "Carrossel"
+    if item.get("media_type") == "VIDEO":
+        return "Video"
+    return "Imagem"
+
+
+def build_report(media_list, pendentes):
     lines = ["# Desempenho @fichafisio\n"]
     lines.append(f"_Atualizado automaticamente em {time.strftime('%Y-%m-%d %H:%M UTC', time.gmtime())}_\n")
 
-    posted = [it for it in items if it.get("posted") and it.get("media_id")]
-    if not posted:
+    if not media_list:
         lines.append("Nenhum post publicado ainda.\n")
         return "\n".join(lines)
 
-    by_type = {}
+    ordenado = sorted(media_list, key=lambda m: m.get("timestamp", ""))
+
+    by_format = {}
     lines.append("## Por post\n")
-    lines.append("| Post | Formato | Curtidas | Comentarios | Link |")
+    lines.append("| Data | Formato | Curtidas | Comentarios | Link |")
     lines.append("|---|---|---|---|---|")
-    for it in posted:
-        stats = it.get("_stats", {})
-        likes = stats.get("like_count")
-        comments = stats.get("comments_count")
-        link = stats.get("permalink", "")
-        formato = "Reels" if it["type"] == "video_reels" else "Imagem"
-        lines.append(f"| {it['id']} | {formato} | {likes if likes is not None else '?'} | {comments if comments is not None else '?'} | {link} |")
-        if likes is not None and comments is not None:
-            by_type.setdefault(it["type"], []).append(likes + comments)
+    for m in ordenado:
+        formato = classify_format(m)
+        likes = m.get("like_count", 0)
+        comments = m.get("comments_count", 0)
+        data = m.get("timestamp", "")[:10]
+        link = m.get("permalink", "")
+        lines.append(f"| {data} | {formato} | {likes} | {comments} | {link} |")
+        by_format.setdefault(formato, []).append(likes + comments)
 
     lines.append("\n## Media de engajamento por formato\n")
-    if by_type:
-        for tipo, valores in by_type.items():
-            nome = "Reels" if tipo == "video_reels" else "Imagem"
-            media = sum(valores) / len(valores)
-            lines.append(f"- **{nome}**: media de {media:.1f} (curtidas + comentarios) em {len(valores)} post(s)")
-        if len(by_type) > 1:
-            melhor = max(by_type.items(), key=lambda kv: sum(kv[1]) / len(kv[1]))
-            nome_melhor = "Reels" if melhor[0] == "video_reels" else "Imagem"
-            lines.append(f"\n**Recomendacao:** formato **{nome_melhor}** esta performando melhor ate agora — priorizar nas proximas levas de conteudo.")
-    else:
-        lines.append("Ainda sem dados suficientes pra comparar formatos.")
+    for formato, valores in by_format.items():
+        media = sum(valores) / len(valores)
+        lines.append(f"- **{formato}**: media de {media:.1f} (curtidas + comentarios) em {len(valores)} post(s)")
+    if len(by_format) > 1:
+        melhor = max(by_format.items(), key=lambda kv: sum(kv[1]) / len(kv[1]))
+        lines.append(f"\n**Recomendacao:** formato **{melhor[0]}** esta performando melhor ate agora — priorizar nas proximas levas de conteudo.")
 
-    lines.append(f"\n## Fila\n")
-    pendentes = [it["id"] for it in items if not it.get("posted")]
-    lines.append(f"- Publicados: {len(posted)}")
-    lines.append(f"- Pendentes na fila: {len(pendentes)} ({', '.join(pendentes) if pendentes else 'fila vazia'})")
+    lines.append("\n## Fila de publicacao automatica\n")
+    lines.append(f"- Total de posts no perfil: {len(media_list)}")
+    lines.append(f"- Pendentes na fila automatica: {len(pendentes)} ({', '.join(pendentes) if pendentes else 'fila vazia'})")
     if len(pendentes) <= 2:
         lines.append("\n**Atencao:** a fila esta acabando — hora de gerar uma nova leva de conteudo.")
 
@@ -120,40 +137,25 @@ def build_report(items, history):
 
 
 def main():
+    ig_user_id = os.environ["IG_USER_ID"].strip()
     access_token = os.environ["IG_ACCESS_TOKEN"].strip()
     github_token = os.environ["GITHUB_TOKEN"].strip()
 
-    items, _ = fetch_json_from_repo(SCHEDULE_PATH, github_token)
-    if items is None:
-        raise RuntimeError("schedule.json nao encontrado")
+    schedule, _ = fetch_json_from_repo(SCHEDULE_PATH, github_token)
+    pendentes = [it["id"] for it in (schedule or []) if not it.get("posted")]
 
-    snapshot_items = []
-    for it in items:
-        if it.get("posted") and it.get("media_id"):
-            stats = fetch_media_stats(it["media_id"], access_token)
-            it["_stats"] = stats
-            snapshot_items.append({
-                "id": it["id"],
-                "type": it["type"],
-                "media_id": it["media_id"],
-                **{k: v for k, v in stats.items() if k != "error"},
-            })
-            time.sleep(1)
+    media_list = fetch_all_media(ig_user_id, access_token)
 
     history, history_sha = fetch_json_from_repo(HISTORY_PATH, github_token)
     if history is None:
         history = []
     history.append({
         "checked_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
-        "items": snapshot_items,
+        "media": media_list,
     })
 
-    report = build_report(items, history)
-
-    # report.md nao e JSON, entao busca o sha direto (sem passar por fetch_json_from_repo)
-    url = f"https://api.github.com/repos/{GITHUB_REPO}/contents/{REPORT_PATH}"
-    code, resp = http("GET", url, headers=gh_headers(github_token))
-    report_sha = resp["sha"] if code < 300 else None
+    report = build_report(media_list, pendentes)
+    report_sha = fetch_sha(REPORT_PATH, github_token)
 
     push_to_repo(HISTORY_PATH, json.dumps(history, ensure_ascii=False, indent=2), history_sha, "chore: atualiza historico de metricas", github_token)
     push_to_repo(REPORT_PATH, report, report_sha, "chore: atualiza relatorio de desempenho", github_token)
