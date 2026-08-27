@@ -88,6 +88,40 @@ def push_schedule(items, sha, message):
         raise RuntimeError(f"Falha ao atualizar schedule.json: {resp}")
 
 
+def wait_until_ready(creation_id, access_token, timeout, poll_interval):
+    deadline = time.time() + timeout
+    while time.time() < deadline:
+        status = graph_get(creation_id, {"fields": "status_code", "access_token": access_token})
+        code = status.get("status_code")
+        if code == "FINISHED":
+            return
+        if code in ("ERROR", "EXPIRED"):
+            raise RuntimeError(f"Processamento da midia falhou: {status}")
+        time.sleep(poll_interval)
+    raise RuntimeError(f"Timeout esperando midia processar ({timeout}s)")
+
+
+def publish_container(ig_user_id, access_token, creation_id, max_attempts=4, wait_seconds=15):
+    # a Meta as vezes devolve "Media ID is not available" / subcode 2207027
+    # ("media is not ready for publishing, please wait for a moment") mesmo
+    # depois do status_code vir FINISHED. Tenta de novo com espera antes de desistir.
+    last_err = None
+    for attempt in range(1, max_attempts + 1):
+        try:
+            return graph_post(f"{ig_user_id}/media_publish", {
+                "creation_id": creation_id,
+                "access_token": access_token,
+            })
+        except RuntimeError as e:
+            last_err = e
+            if "2207027" in str(e) or "not ready for publishing" in str(e):
+                print(f"Midia ainda nao esta pronta (tentativa {attempt}/{max_attempts}), aguardando {wait_seconds}s...")
+                time.sleep(wait_seconds)
+                continue
+            raise
+    raise last_err
+
+
 def publish_image(ig_user_id, access_token, item):
     container = graph_post(f"{ig_user_id}/media", {
         "image_url": item["image_url"],
@@ -95,11 +129,8 @@ def publish_image(ig_user_id, access_token, item):
         "access_token": access_token,
     })
     creation_id = container["id"]
-    result = graph_post(f"{ig_user_id}/media_publish", {
-        "creation_id": creation_id,
-        "access_token": access_token,
-    })
-    return result
+    wait_until_ready(creation_id, access_token, timeout=60, poll_interval=5)
+    return publish_container(ig_user_id, access_token, creation_id)
 
 
 def publish_reels(ig_user_id, access_token, item):
@@ -110,25 +141,8 @@ def publish_reels(ig_user_id, access_token, item):
         "access_token": access_token,
     })
     creation_id = container["id"]
-
-    # video precisa processar antes de publicar - poll ate FINISHED (timeout 5 min)
-    deadline = time.time() + 300
-    while time.time() < deadline:
-        status = graph_get(creation_id, {"fields": "status_code", "access_token": access_token})
-        code = status.get("status_code")
-        if code == "FINISHED":
-            break
-        if code in ("ERROR", "EXPIRED"):
-            raise RuntimeError(f"Processamento do video falhou: {status}")
-        time.sleep(10)
-    else:
-        raise RuntimeError("Timeout esperando o video processar (5 min)")
-
-    result = graph_post(f"{ig_user_id}/media_publish", {
-        "creation_id": creation_id,
-        "access_token": access_token,
-    })
-    return result
+    wait_until_ready(creation_id, access_token, timeout=300, poll_interval=10)
+    return publish_container(ig_user_id, access_token, creation_id)
 
 
 def main():
