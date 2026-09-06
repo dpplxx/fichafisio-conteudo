@@ -16,6 +16,12 @@ NEW_ENTRIES = [
     {"id": "post-13", "type": "image", "asset": "assets/posts/post-13.png", "caption_file": None},
     {"id": "post-14", "type": "image", "asset": "assets/posts/post-14.png", "caption_file": None},
     {"id": "post-15", "type": "image", "asset": "assets/posts/post-15.png", "caption_file": None},
+    # Leva 3 (06/09/2026) - foco em Reels educativos + CTA de direct, ver [[project-fichafisio-instagram]]
+    {"id": "post-16", "type": "image", "asset": "assets/posts/post-16.png", "caption_file": "assets/posts/legenda-16.txt"},
+    {"id": "post-17", "type": "image", "asset": "assets/posts/post-17.png", "caption_file": "assets/posts/legenda-17.txt"},
+    {"id": "reels-02", "type": "video_reels", "asset": "assets/reels/fichafisio-reels-02.mp4", "caption_file": "assets/reels/legenda-reels-02.txt"},
+    {"id": "post-18", "type": "image", "asset": "assets/posts/post-18.png", "caption_file": "assets/posts/legenda-18.txt"},
+    {"id": "reels-03", "type": "video_reels", "asset": "assets/reels/fichafisio-reels-03.mp4", "caption_file": "assets/reels/legenda-reels-03.txt"},
 ]
 
 LEGEND_SRC_DIR = r"C:\Users\Desktop\Videos\fichafisio-instagram\posts\legendas"
