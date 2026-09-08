@@ -38,6 +38,9 @@ NEW_ENTRIES = [
     # Leva 6 (08/09/2026) - caso real parte 2: ADM, forca muscular, exame de imagem
     # e diagnostico/plano completo. Ver [[project-fichafisio-instagram]]
     {"id": "reels-caso-real-2", "type": "video_reels", "asset": "assets/reels/fichafisio-reels-caso-real-2.mp4", "caption_file": "assets/reels/legenda-reels-caso-real-2.txt"},
+    # Leva 7 (08/09/2026) - prints REAIS da tela (nao recriados), tirados pela propria
+    # usuaria com Win+Shift+S. Ver [[project-fichafisio-instagram]]
+    {"id": "reels-prints-reais", "type": "video_reels", "asset": "assets/reels/fichafisio-reels-prints-reais.mp4", "caption_file": "assets/reels/legenda-reels-prints-reais.txt"},
 ]
 
 LEGEND_SRC_DIR = r"C:\Users\Desktop\Videos\fichafisio-instagram\posts\legendas"
