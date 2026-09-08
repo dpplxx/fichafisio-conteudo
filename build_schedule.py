@@ -22,6 +22,14 @@ NEW_ENTRIES = [
     {"id": "reels-02", "type": "video_reels", "asset": "assets/reels/fichafisio-reels-02.mp4", "caption_file": "assets/reels/legenda-reels-02.txt"},
     {"id": "post-18", "type": "image", "asset": "assets/posts/post-18.png", "caption_file": "assets/posts/legenda-18.txt"},
     {"id": "reels-03", "type": "video_reels", "asset": "assets/reels/fichafisio-reels-03.mp4", "caption_file": "assets/reels/legenda-reels-03.txt"},
+    # Leva 4 (08/09/2026) - visual v2 premium (Manrope/Inter), formatos antes/depois,
+    # quebra de objecao, prova social geografica e passo-a-passo. Ver [[project-fichafisio-instagram]]
+    {"id": "post-19", "type": "image", "asset": "assets/posts/post-19.png", "caption_file": "assets/posts/legenda-19.txt"},
+    {"id": "post-20", "type": "image", "asset": "assets/posts/post-20.png", "caption_file": "assets/posts/legenda-20.txt"},
+    {"id": "reels-04", "type": "video_reels", "asset": "assets/reels/fichafisio-reels-04.mp4", "caption_file": "assets/reels/legenda-reels-04.txt"},
+    {"id": "post-21", "type": "image", "asset": "assets/posts/post-21.png", "caption_file": "assets/posts/legenda-21.txt"},
+    {"id": "reels-05", "type": "video_reels", "asset": "assets/reels/fichafisio-reels-05.mp4", "caption_file": "assets/reels/legenda-reels-05.txt"},
+    {"id": "post-22", "type": "image", "asset": "assets/posts/post-22.png", "caption_file": "assets/posts/legenda-22.txt"},
 ]
 
 LEGEND_SRC_DIR = r"C:\Users\Desktop\Videos\fichafisio-instagram\posts\legendas"
