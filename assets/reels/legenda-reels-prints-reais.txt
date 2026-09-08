@@ -1,6 +1,6 @@
-Um caso real, tela por tela. 📱
+Um tour real pela ficha, aba por aba. 📱
 
-Da queixa do paciente à triagem de bandeiras vermelhas, passando por ADM, força muscular, testes especiais, exame de imagem e a escala SPADI calculada automaticamente (54,6% — incapacidade moderada) — tudo direto da ficha, do jeito que fica no seu celular.
+Queixa e histórico do paciente, triagem de bandeiras vermelhas, avaliação da dor, ADM, força muscular, testes especiais, exame de imagem e escalas validadas calculadas automaticamente — tudo direto da ficha, do jeito que fica no seu celular.
 
 Teste grátis no link da bio.
 
