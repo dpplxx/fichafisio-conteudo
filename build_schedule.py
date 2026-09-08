@@ -30,6 +30,11 @@ NEW_ENTRIES = [
     {"id": "post-21", "type": "image", "asset": "assets/posts/post-21.png", "caption_file": "assets/posts/legenda-21.txt"},
     {"id": "reels-05", "type": "video_reels", "asset": "assets/reels/fichafisio-reels-05.mp4", "caption_file": "assets/reels/legenda-reels-05.txt"},
     {"id": "post-22", "type": "image", "asset": "assets/posts/post-22.png", "caption_file": "assets/posts/legenda-22.txt"},
+    # Leva 5 (08/09/2026) - caso real recriado (Maria Aparecida, ombro, SPADI 54,6%),
+    # telas do app fielmente reproduzidas. Ver [[project-fichafisio-instagram]]
+    {"id": "post-23", "type": "image", "asset": "assets/posts/post-23.png", "caption_file": "assets/posts/legenda-23.txt"},
+    {"id": "reels-caso-real", "type": "video_reels", "asset": "assets/reels/fichafisio-reels-caso-real.mp4", "caption_file": "assets/reels/legenda-reels-caso-real.txt"},
+    {"id": "post-24", "type": "image", "asset": "assets/posts/post-24.png", "caption_file": "assets/posts/legenda-24.txt"},
 ]
 
 LEGEND_SRC_DIR = r"C:\Users\Desktop\Videos\fichafisio-instagram\posts\legendas"

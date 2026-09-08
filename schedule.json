@@ -149,5 +149,29 @@
     "caption": "Já testou o Ficha Fisio? 📲\n\nManda um print da sua ficha preenchida no direct — a gente adora repostar nos stories, e ainda ajuda outros fisioterapeutas a te conhecer. 💙\n\n#fisioterapia #fisioterapeuta #fichafisio #testegratis",
     "posted": false,
     "posted_at": null
+  },
+  {
+    "id": "post-23",
+    "type": "image",
+    "image_url": "https://raw.githubusercontent.com/dpplxx/fichafisio-conteudo/main/assets/posts/post-23.png",
+    "caption": "Escala SPADI calculada na hora. 📐\n\nSem planilha, sem fazer conta na mão — o Ficha Fisio calcula a pontuação e já mostra a interpretação (aqui: 54,6%, incapacidade moderada).\n\nTeste grátis no link da bio.\n\n#fisioterapia #escalasvalidadas #fichafisio #avaliacaofisioterapeutica",
+    "posted": false,
+    "posted_at": null
+  },
+  {
+    "id": "reels-caso-real",
+    "type": "video_reels",
+    "video_url": "https://raw.githubusercontent.com/dpplxx/fichafisio-conteudo/main/assets/reels/fichafisio-reels-caso-real.mp4",
+    "caption": "Dor no ombro que atrapalha até pentear o cabelo. 🤕\n\nEsse é um caso real de avaliação no Ficha Fisio: dor mapeada, escala SPADI calculada automaticamente (54,6% — incapacidade moderada), testes especiais registrados, plano de tratamento baseado em evidência.\n\nTudo isso em minutos, no celular.\n\nTeste grátis no link da bio.\n\n#fisioterapia #fisioterapeuta #fichafisio #tendinopatia #ombro",
+    "posted": false,
+    "posted_at": null
+  },
+  {
+    "id": "post-24",
+    "type": "image",
+    "image_url": "https://raw.githubusercontent.com/dpplxx/fichafisio-conteudo/main/assets/posts/post-24.png",
+    "caption": "Do sintoma ao plano de tratamento, tudo numa ficha só. 📋\n\nDiagnóstico, escalas, testes especiais e conduta baseada em evidência — organizados automaticamente, sem perder tempo com papelada.\n\nTeste grátis no link da bio.\n\n#fisioterapia #gestaodeclinica #fichafisio #fisioterapeutaautonomo",
+    "posted": false,
+    "posted_at": null
   }
 ]
