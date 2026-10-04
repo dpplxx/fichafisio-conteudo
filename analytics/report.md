@@ -1,6 +1,6 @@
 # Desempenho @fichafisio
 
-_Atualizado automaticamente em 2026-09-27 23:44 UTC_
+_Atualizado automaticamente em 2026-10-04 23:54 UTC_
 
 ## Por post
 
@@ -30,19 +30,22 @@ _Atualizado automaticamente em 2026-09-27 23:44 UTC_
 | 2026-09-22 | Imagem | 2 | 1 | https://www.instagram.com/p/Ddkbn4ImWfY/ |
 | 2026-09-24 | Imagem | 1 | 0 | https://www.instagram.com/p/DdpjSC4mRHT/ |
 | 2026-09-26 | Reels | 1 | 0 | https://www.instagram.com/reel/DduuEisE3Ix/ |
+| 2026-09-29 | Imagem | 1 | 0 | https://www.instagram.com/p/Dd2kDhtkbFa/ |
+| 2026-10-01 | Reels | 2 | 0 | https://www.instagram.com/reel/Dd7qp8rE1Gd/ |
+| 2026-10-03 | Imagem | 1 | 0 | https://www.instagram.com/p/DeAzgwFkScT/ |
 
 ## Media de engajamento por formato
 
 _Considera so posts com 3+ dias no ar, pra nao comparar um post recem-publicado (que ainda esta ganhando alcance) com um que ja maturou._
 
-- **Imagem**: media de 4.7 (curtidas + comentarios) em 20 post(s)
-- **Reels**: media de 3.3 (curtidas + comentarios) em 3 post(s)
+- **Imagem**: media de 4.5 (curtidas + comentarios) em 21 post(s)
+- **Reels**: media de 2.6 (curtidas + comentarios) em 5 post(s)
 
 **Recomendacao:** formato **Imagem** esta performando melhor ate agora — priorizar nas proximas levas de conteudo.
 
-_Fora da comparacao acima (ainda ganhando alcance, <3 dias): Reels de 2026-09-26._
+_Fora da comparacao acima (ainda ganhando alcance, <3 dias): Imagem de 2026-10-03._
 
 ## Fila de publicacao automatica
 
-- Total de posts no perfil: 24
-- Pendentes na fila automatica: 8 (post-21, reels-05, post-22, post-23, reels-caso-real, post-24, reels-caso-real-2, reels-prints-reais)
+- Total de posts no perfil: 27
+- Pendentes na fila automatica: 5 (post-23, reels-caso-real, post-24, reels-caso-real-2, reels-prints-reais)
