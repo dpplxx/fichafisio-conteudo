@@ -1,6 +1,6 @@
 # Desempenho @fichafisio
 
-_Atualizado automaticamente em 2026-10-04 23:54 UTC_
+_Atualizado automaticamente em 2026-10-12 00:24 UTC_
 
 ## Por post
 
@@ -25,27 +25,32 @@ _Atualizado automaticamente em 2026-10-04 23:54 UTC_
 | 2026-09-09 | Imagem | 3 | 0 | https://www.instagram.com/p/DdFc8zPFYFf/ |
 | 2026-09-11 | Imagem | 2 | 0 | https://www.instagram.com/p/DdKmqGJEUs6/ |
 | 2026-09-15 | Reels | 3 | 0 | https://www.instagram.com/reel/DdSYFyRmND2/ |
-| 2026-09-16 | Imagem | 1 | 0 | https://www.instagram.com/p/DdXg6HzD_q8/ |
-| 2026-09-18 | Reels | 3 | 0 | https://www.instagram.com/reel/DdcoyPNDu4A/ |
-| 2026-09-22 | Imagem | 2 | 1 | https://www.instagram.com/p/Ddkbn4ImWfY/ |
-| 2026-09-24 | Imagem | 1 | 0 | https://www.instagram.com/p/DdpjSC4mRHT/ |
-| 2026-09-26 | Reels | 1 | 0 | https://www.instagram.com/reel/DduuEisE3Ix/ |
-| 2026-09-29 | Imagem | 1 | 0 | https://www.instagram.com/p/Dd2kDhtkbFa/ |
-| 2026-10-01 | Reels | 2 | 0 | https://www.instagram.com/reel/Dd7qp8rE1Gd/ |
-| 2026-10-03 | Imagem | 1 | 0 | https://www.instagram.com/p/DeAzgwFkScT/ |
+| 2026-09-16 | Imagem | 2 | 0 | https://www.instagram.com/p/DdXg6HzD_q8/ |
+| 2026-09-18 | Reels | 4 | 0 | https://www.instagram.com/reel/DdcoyPNDu4A/ |
+| 2026-09-22 | Imagem | 3 | 1 | https://www.instagram.com/p/Ddkbn4ImWfY/ |
+| 2026-09-24 | Imagem | 2 | 0 | https://www.instagram.com/p/DdpjSC4mRHT/ |
+| 2026-09-26 | Reels | 2 | 0 | https://www.instagram.com/reel/DduuEisE3Ix/ |
+| 2026-09-29 | Imagem | 2 | 0 | https://www.instagram.com/p/Dd2kDhtkbFa/ |
+| 2026-10-01 | Reels | 3 | 0 | https://www.instagram.com/reel/Dd7qp8rE1Gd/ |
+| 2026-10-03 | Imagem | 3 | 0 | https://www.instagram.com/p/DeAzgwFkScT/ |
+| 2026-10-06 | Imagem | 3 | 0 | https://www.instagram.com/p/DeIp9s3DLiL/ |
+| 2026-10-08 | Reels | 2 | 1 | https://www.instagram.com/reel/DeNvlSJFLZA/ |
+| 2026-10-10 | Imagem | 1 | 0 | https://www.instagram.com/p/DeS476vCT0D/ |
 
 ## Media de engajamento por formato
 
 _Considera so posts com 3+ dias no ar, pra nao comparar um post recem-publicado (que ainda esta ganhando alcance) com um que ja maturou._
 
-- **Imagem**: media de 4.5 (curtidas + comentarios) em 21 post(s)
-- **Reels**: media de 2.6 (curtidas + comentarios) em 5 post(s)
+- **Imagem**: media de 4.5 (curtidas + comentarios) em 23 post(s)
+- **Reels**: media de 3.2 (curtidas + comentarios) em 6 post(s)
 
 **Recomendacao:** formato **Imagem** esta performando melhor ate agora — priorizar nas proximas levas de conteudo.
 
-_Fora da comparacao acima (ainda ganhando alcance, <3 dias): Imagem de 2026-10-03._
+_Fora da comparacao acima (ainda ganhando alcance, <3 dias): Imagem de 2026-10-10._
 
 ## Fila de publicacao automatica
 
-- Total de posts no perfil: 27
-- Pendentes na fila automatica: 5 (post-23, reels-caso-real, post-24, reels-caso-real-2, reels-prints-reais)
+- Total de posts no perfil: 30
+- Pendentes na fila automatica: 2 (reels-caso-real-2, reels-prints-reais)
+
+**Atencao:** a fila esta acabando — hora de gerar uma nova leva de conteudo.
